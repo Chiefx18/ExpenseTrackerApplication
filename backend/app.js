@@ -1,10 +1,24 @@
+// Imports
 const express = require('express');
 const cors = require('cors');
+const dotenv = require('dotenv');
+
+// Load env 
+dotenv.config();
+
+// Initialize app
 const app = express();
 app.use(express.json());
+
+// Connect db
 const db = require('./db');
-const PORT = 4000;
-app.use(cors({ origin: "http://localhost:3000" }));
+
+//Get Ports
+const PORT = process.env.PORT || 4000;
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
+app.use(cors({ origin: `${FRONTEND_URL}` }));
+
+//Routes
 const expensesRoutes = require('./routes/expenses.routes');
 
 app.use('/expenses',expensesRoutes)
